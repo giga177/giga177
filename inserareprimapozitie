@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+int v[100],i,n,x;
+int main()
+{
+cin>>n;
+for(i=1;i<=n;i++) //citire
+    cin>>v[i];
+n=n+1; //creare "loc" nou
+for(i=n;i>=2;i--) //mutare elemente la dreapta
+{
+    v[i]=v[i-1];
+}
+cin>>x; // citire element nou
+v[1]=x; // inserarea pe prima pozitie
+for(i=1;i<=n;i++)//afisare
+    cout<<v[i]<<" ";
+}
