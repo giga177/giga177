@@ -1,0 +1,45 @@
+#include <fstream>
+#define NrMaxMonede 20
+using namespace std;
+unsigned V[NrMaxMonede], M[NrMaxMonede], P[NrMaxMonede];
+unsigned n, S, Sum, NrSol;
+ofstream fout("suma.out");
+
+void Citire ()
+{
+ifstream fin("suma.in");
+fin>>n>>S;// citim datele de intrare din fisierul suma.in
+for (int i=0; i<n; i++) fin>>V[i]>>M[i];
+fin.close();
+}
+
+void Afisare ()
+{
+fout<<"solutia nr. "<<++NrSol<<" este:"<<endl;//afisez o solutie in fisierul iesire
+for (int i=0; i<n; i++)
+    if (P[i])
+     fout <<"sunt "<<P[i]<< " - monede cu valoarea - "<<V[i]<<" lei sau euro"<<endl;
+}
+
+void Plata (int k)
+//cand apelam Plata(k) am selectat deja monede din saculetii 0,1,...,k-1
+{
+if (k==n)  //am selectat monede de toate tipurile
+   if (Sum==S) // valoare monedelor selectate e egala cu S
+    Afisare();
+    else;
+    else // mai selectam monede din saculetii k,k+1,..., n-1
+        for (int j=0; j<=M[k] && Sum+j*V[k]<=S; j++)
+         {P[k]=j;// selectez j monede din sacul k
+         Sum+=j*V[k]; // adaug valoarea menedelor selectate din sacul k la valoarea totala a monedelor selectate memorata in Sum
+         Plata(k+1);//apel recursiv
+         Sum-=j*V[k];//restaurez dupa apel valoarea variabilei globale Sum
+         }
+}
+
+int main ()
+{Citire ();
+Plata (0);
+fout.close ();
+return 0;
+}
